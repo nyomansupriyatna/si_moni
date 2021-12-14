@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Livewire\User;
+use App\Http\Livewire\WorkOrder;
+use App\Http\Livewire\MappingRegu;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -26,4 +28,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Admin']], function() {
     Route::get('/user', User::class)->name('user');
+    Route::get('/mapping-regu', MappingRegu::class)->name('mapping.regu');
+    Route::get('/work-order', WorkOrder::class)->name('work.order');
 });

@@ -160,7 +160,9 @@ class User extends Component
     {
         $this->validate(
             [
+                'nik' => 'required | unique:users,nik,'.$id,
                 'nama' => 'required',
+                'username' => 'required',
                 'jenis_kelamin' => 'required',
                 'hak_akses' => 'required',
             ]

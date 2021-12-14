@@ -15,11 +15,11 @@
         @endif
 
         @if(Auth::user()->hak_akses =='Admin' | Auth::user()->hak_akses =='Operator')
-            <a class="block mt-5 rounded cursor-pointer hover:bg-blue-600">
+            <a href="/work-order" class="block mt-5 rounded cursor-pointer hover:bg-blue-600 @if(request()->routeIs('work.order')) bg-purple-600  @endif">
                 <span class="py-2 ml-4 border-gray-500 rounded-lg">Data Work Order</span>
             </a>
 
-            <a class="block mt-5 rounded cursor-pointer hover:bg-blue-600">
+            <a href="/mapping-regu" class="block mt-5 rounded cursor-pointer hover:bg-blue-600 @if(request()->routeIs('mapping.regu')) bg-purple-600  @endif">
                 <span class="py-2 ml-4 border-gray-500 rounded-lg">Data Mapping Regu</span>
             </a>
 
