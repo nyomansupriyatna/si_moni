@@ -12,6 +12,7 @@ class WorkOrder extends Model
     protected $fillable = [
         'user_psb',
         'nama_pelanggan',
+        'nama_layanan',
         'alamat',
         'pic',
         'datek',

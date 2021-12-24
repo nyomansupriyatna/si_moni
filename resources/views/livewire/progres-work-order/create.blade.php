@@ -31,24 +31,39 @@
 
         <div>
             <div class="my-2">
+                <input class="mb-2" wire:model="wo_id" class="w-full h-8 px-3 border border-gray-500 rounded" type="hidden" >
 
-                <input class="mb-2" wire:model="mapping_id" class="w-full h-8 px-3 border border-gray-500 rounded" type="hidden" >
+                <x-input-text class="mb-2" name="tanggal" label="User PSB" type="date" />
+                <x-input-text class="mb-2" name="user_psb" label="User PSB" readonly="readonly" />
 
-                <x-input-text class="mb-2" name="user_psb" label="User PSB"  />
-                <x-input-text class="mb-2" name="nama_pelanggan" label="Nama Pelanggan" />
-                <x-input-text class="mb-2" name="nama_layanan" label="Nama Layanan" />
-                <x-input-text class="mb-2" name="alamat" label="Alamat" />
-                <x-input-text class="mb-2" name="pic" label="PIC" />
-                <x-input-text class="mb-2" name="datek" label="Datek" />
-                <x-input-text class="mb-2" name="keterangan" label="Keterangan" />
-
-                <select wire:model="mapping_regu_id" name="mapping_regu_id" class="w-full text-sm border rounded h-9">
+                <label for="status">Status</label>
+                <select wire:model="status" name="status" class="w-full text-sm border rounded h-9">
                     <option class="flex items-center" value="null" disabled selected hidden>--select--</option>
-                    @foreach ($mapping_regu as $item)
-                        <option value="{{$item->id}}">{{$item->nama_regu}}</option>
+                    @foreach ($all_status as $item)
+                        <option value="{{$item}}">{{$item}}</option>
                     @endforeach
                 </select>
+                @if ($errors->has('status'))
+                    <span class="mb-2 text-xs text-red-500 " role="alert">
+                        <strong>{{ $errors->first('status') }}</strong>
+                    </span>
+                @endif
 
+                <x-input-text class="mb-2" name="datek" label="Date ODP" readonly="readonly"/>
+                <x-input-text class="mb-2" name="sn_modem" label="ZN Modem" />
+                <x-input-text class="mb-2" name="jumlah_ap" label="Jumlah AP"  type="number"/>
+                <x-input-text class="mb-2" name="panjang_dc" label="Panjang DC" type="number"/>
+                <x-input-text class="mb-2" name="material_lain" label="Material Lain" />
+                <x-input-text class="mb-2" name="keterangan_tambahan" label="Keterangan Tambahan" />
+                @if($status == 'ok')
+                    <x-input-text class="mb-2" name="foto_odp" label="Foto ODP" type="file" />
+                    <x-input-text class="mb-2" name="foto_rumah_pelanggan" label="Foto Rumah Pelanggan" type="file" />
+                    <x-input-text class="mb-2" name="foto_modem" label="Foto Modem" type="file" />
+                    <x-input-text class="mb-2" name="foto_ap" label="Foto Ap" type="file" />
+                @elseif($status == 'kendala')
+                    <x-input-text class="mb-2" name="foto_kendala" label="Foto Kendala" type="file" />
+                @else
+                @endif
 
             </div>
 

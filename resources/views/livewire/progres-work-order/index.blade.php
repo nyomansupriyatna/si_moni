@@ -17,7 +17,7 @@
                             </select>
                         </div>
                         <div class="flex w-full px-3 py-2" >
-                            <h2 class="items-center justify-start h-full font-bold text-white">Work Order List</h2>
+                            <h2 class="items-center justify-start h-full font-bold text-white">Progres Work Order</h2>
                         </div>
                         <div class="flex w-full p-2 lg:justify-end lg:w-7/12">
                             <div class="relative">
@@ -52,12 +52,8 @@
                     </th>
                 @endforeach
                     <td class="w-auto py-2 border border-gray-400">
-                        <div class="flex justify-center">
-                            <x-btn-add  title="" wire:click="add()"/>
-                        </div>
-
                         @if($isOpen)
-                            @include('livewire.work-order.create')
+                            @include('livewire.progres-work-order.create')
                         @endif
                     </td>
             </thead>
@@ -66,40 +62,28 @@
                     @foreach ($data as $item)
                         <tr class="hover:bg-gray-200">
                             <td class="px-2 border border-gray-300">
+                                {{ $item->tgl_wo }}
+                            </td>
+                            <td class="px-2 border border-gray-300 w-max-content">
                                 {{ $item->order_id }}
-                            </td>
-                            <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->user_psb }}
-                            </td>
-                            <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->nama_pelanggan }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
                                 {{ $item->nama_layanan }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->alamat }}
-                            </td>
-                            <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->pic }}
+                                {{ $item->nama_pelanggan }}
                             </td>
                             <td class="px-2 text-center border border-gray-300 w-max-content">
                                 {{ $item->datek }}
                             </td>
                             <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->keterangan }}
+                                {{ $item->nama_teknisi1 }}, {{ $item->nama_teknisi2 }}
                             </td>
-                            <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->nama_regu }}
-                            </td>
-
-                            <td class="border border-gray-300 ">
+                              <td class="py-1 border border-gray-300">
                                 <div class="flex items-center justify-around gap-2 mx-1">
-                                    <x-btn-edit  title="" wire:click="edit({{$item->id}})" />
-                                    <x-btn-delete  title="" wire:click="showDelete({{$item->id}})" />
+                                    <x-btn-edit wire:click="add({{ $item->order_id }})" title="Update"  />
                                 </div>
                             </td>
-
                         </tr>
                     @endforeach
                 @else

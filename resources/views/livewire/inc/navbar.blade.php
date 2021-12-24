@@ -21,7 +21,7 @@
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <div  onclick="event.preventDefault(); this.closest('form').submit();"
-             class="px-3 py-2 bg-blue-700 border border-gray-700 rounded-md shadow-sm cursor-pointer hover:bg-white ">
+             class="px-3 py-2 text-blue-900 bg-blue-400 border border-blue-500 rounded-md shadow-sm cursor-pointer hover:bg-white ">
                 Logout
             </div>
         </form>

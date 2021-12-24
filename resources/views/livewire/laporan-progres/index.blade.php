@@ -1,5 +1,6 @@
 <div class="flex-1">
 
+
     <div class="w-full px-2 overflow-x-scroll">
         <table class="w-full table-auto">
             <thead>
@@ -17,7 +18,7 @@
                             </select>
                         </div>
                         <div class="flex w-full px-3 py-2" >
-                            <h2 class="items-center justify-start h-full font-bold text-white">Work Order List</h2>
+                            <h2 class="items-center justify-start h-full font-bold text-white">Laporan Progress</h2>
                         </div>
                         <div class="flex w-full p-2 lg:justify-end lg:w-7/12">
                             <div class="relative">
@@ -51,53 +52,41 @@
                         </div>
                     </th>
                 @endforeach
-                    <td class="w-auto py-2 border border-gray-400">
-                        <div class="flex justify-center">
-                            <x-btn-add  title="" wire:click="add()"/>
-                        </div>
 
-                        @if($isOpen)
-                            @include('livewire.work-order.create')
-                        @endif
-                    </td>
             </thead>
             <tbody>
                 @if(count($data))
                     @foreach ($data as $item)
                         <tr class="hover:bg-gray-200">
                             <td class="px-2 border border-gray-300">
-                                {{ $item->order_id }}
+                                {{ $item->tgl_update }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
                                 {{ $item->user_psb }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->nama_pelanggan }}
+                                {{ $item->status }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->nama_layanan }}
-                            </td>
-                            <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->alamat }}
-                            </td>
-                            <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->pic }}
-                            </td>
-                            <td class="px-2 text-center border border-gray-300 w-max-content">
                                 {{ $item->datek }}
                             </td>
                             <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->keterangan }}
+                                {{ $item->sn_modem }}
                             </td>
                             <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->nama_regu }}
+                                {{ $item->jumlah_ap }}
                             </td>
-
-                            <td class="border border-gray-300 ">
-                                <div class="flex items-center justify-around gap-2 mx-1">
-                                    <x-btn-edit  title="" wire:click="edit({{$item->id}})" />
-                                    <x-btn-delete  title="" wire:click="showDelete({{$item->id}})" />
-                                </div>
+                            <td class="px-2 text-center border border-gray-300 w-max-content">
+                                {{ $item->panjang_dc }}
+                            </td>
+                            <td class="px-2 text-center border border-gray-300 w-max-content">
+                                {{ $item->material_lain }}
+                            </td>
+                            <td class="px-2 text-center border border-gray-300 w-max-content">
+                                {{ $item->keterangan_tambahan }}
+                            </td>
+                            <td class="px-2 py-1 text-center border border-gray-300 w-max-content">
+                                <x-btn-save wire:click="open_fotos({{$item->id}})" title="FOTO"/>
                             </td>
 
                         </tr>
@@ -115,4 +104,8 @@
             {{$data->links()}}
     </div>
 
+    @if($isOpen)
+        @include('livewire.laporan-progres.fotos')
+    @endif
 </div>
+

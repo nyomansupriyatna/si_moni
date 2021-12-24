@@ -3,7 +3,9 @@
 use App\Http\Livewire\User;
 use App\Http\Livewire\WorkOrder;
 use App\Http\Livewire\MappingRegu;
+use App\Http\Livewire\LaporanProgres;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\ProgresWorkOrder;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -28,6 +30,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Admin']], function() {
     Route::get('/user', User::class)->name('user');
+});
+
+Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Admin,Operator']], function() {
     Route::get('/mapping-regu', MappingRegu::class)->name('mapping.regu');
     Route::get('/work-order', WorkOrder::class)->name('work.order');
+    Route::get('/laporan-progres', LaporanProgres::class)->name('laporan.progres');
+});
+
+Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Teknisi']], function() {
+    Route::get('/update-order', ProgresWorkOrder::class)->name('update.order');
 });

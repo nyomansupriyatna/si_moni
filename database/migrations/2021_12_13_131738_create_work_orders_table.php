@@ -15,14 +15,15 @@ class CreateWorkOrdersTable extends Migration
     {
         Schema::create('work_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_psb')->unique();
+            $table->string('user_psb')->unique();
             $table->string('nama_pelanggan');
+            $table->string('nama_layanan')->nullable();
             $table->string('alamat');
             $table->string('pic');
             $table->string('datek');
             $table->string('keterangan');
-            $table->bigInteger('mapping_regu_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('mapping_regu_id')->unsigned()->nullable();
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('mapping_regu_id')->references('id')->on('mapping_regus')->onDelete('cascade');
