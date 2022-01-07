@@ -17,8 +17,6 @@ class CreateMappingRegusTable extends Migration
             $table->id();
             $table->date('tanggal');
             $table->string('nama_regu');
-            $table->string('nama_teknisi1');
-            $table->string('nama_teknisi2');
             $table->timestamps();
         });
     }

@@ -59,16 +59,16 @@
                     @foreach ($data as $item)
                         <tr class="hover:bg-gray-200">
                             <td class="px-2 border border-gray-300">
-                                {{ $item->tgl_update }}
+                                {{ $item->tanggal }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->user_psb }}
+                                {{ $item->work_orders->user_psb }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
                                 {{ $item->status }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->datek }}
+                                {{ $item->work_orders->datek }}
                             </td>
                             <td class="px-2 text-center border border-gray-300 w-max-content">
                                 {{ $item->sn_modem }}

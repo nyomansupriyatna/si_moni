@@ -59,13 +59,14 @@
             </thead>
             <tbody>
                 @if(count($data))
+
                     @foreach ($data as $item)
                         <tr class="hover:bg-gray-200">
                             <td class="px-2 border border-gray-300">
-                                {{ $item->tgl_wo }}
+                                {{ $item->created_at }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->order_id }}
+                                {{ $item->id }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
                                 {{ $item->nama_layanan }}
@@ -77,11 +78,19 @@
                                 {{ $item->datek }}
                             </td>
                             <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->nama_teknisi1 }}, {{ $item->nama_teknisi2 }}
+                                @php
+                                    $j = count($item->mapping_regus->user);
+                                    $i =0;
+                                @endphp
+                                @foreach ($item->mapping_regus->user as $teknisi )
+                                    @php $i++;  @endphp
+                                    {{ $teknisi->nama}}{{$i<$j?', ':''}}
+                                @endforeach
+
                             </td>
                               <td class="py-1 border border-gray-300">
                                 <div class="flex items-center justify-around gap-2 mx-1">
-                                    <x-btn-edit wire:click="add({{ $item->order_id }})" title="Update"  />
+                                    <x-btn-edit wire:click="add({{ $item->id }})" title="Update" />
                                 </div>
                             </td>
                         </tr>

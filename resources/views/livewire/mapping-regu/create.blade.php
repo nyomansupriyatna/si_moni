@@ -36,9 +36,21 @@
 
                 <x-input-text class="mb-2" name="tanggal" label="Tanggal" type="date" />
                 <x-input-text class="mb-2" name="nama_regu" label="Nama Regu" />
-                <x-input-text class="mb-2" name="nama_teknisi1" label="Nama Teknisi1" />
-                <x-input-text class="mb-2" name="nama_teknisi2" label="Nama Teknisi2" />
+                {{-- <x-input-text class="mb-2" name="nama_teknisi1" label="Nama Teknisi1" />
+                <x-input-text class="mb-2" name="nama_teknisi2" label="Nama Teknisi2" /> --}}
 
+
+              <div class="text-indigo-700 border-r rounded-l ">
+                    <label for="select2">Teknisi:</label> </br>
+                    {{-- tek:{{$tek}} --}}
+                </div>
+                <div wire:ignore>
+                    <select multiple id="select2" class="w-full text-sm text-red-900 border rounded h-9 px-3" >
+                        @foreach($teknisis as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
             </div>
 
@@ -61,3 +73,19 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#select2').select2({
+            placeholder: " --select--",
+            multiple: true,
+            allowClear: true,
+        });
+        $('#select2').on('change', function (e) {
+            var data = $('#select2').select2("val");
+            @this.set('tek', data);
+        });
+        $('#select2').select2().val({!! json_encode($tek)!!}).trigger('change');
+    });
+</script>

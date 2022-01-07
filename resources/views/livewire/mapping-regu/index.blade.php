@@ -35,6 +35,9 @@
                     </div>
                 </td>
             </thead>
+            <div>
+               data: {{$data}}
+            </div>
             <thead class="px-3 font-bold text-indigo-700 bg-indigo-200">
                 @foreach($headers as $key => $value)
 
@@ -75,10 +78,17 @@
                                 {{ $item->nama_regu }}
                             </td>
                             <td class="px-2 border border-gray-300 w-max-content">
-                                {{ $item->nama_teknisi1 }}
-                            </td>
-                            <td class="px-2 text-center border border-gray-300 w-max-content">
-                                {{ $item->nama_teknisi2 }}
+                                @php
+                                    $j = count($item->user->pluck('nama'));
+                                    $i =0;
+                                @endphp
+                                <div>
+                                    @foreach($item->user->pluck('nama') as $teknisi)
+                                        @php $i++;  @endphp
+                                       {{ $teknisi}}{{$i<$j?', ':''}}
+                                    @endforeach
+                                </div>
+
                             </td>
 
                             <td class="border border-gray-300 ">

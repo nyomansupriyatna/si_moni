@@ -4,7 +4,7 @@
         <span  onclick="toggle_this('sidebar'); show_this('burger')" class="px-2 font-bold bg-gray-500 cursor-pointer">X</span>
     </div>
     <div wire:click="menuSetup" class="flex items-center justify-center w-full px-2 mt-2 mb-0 text-lg font-bold text-gray-700 rounded">
-        <a href="">{{Auth::user()->nama}}</a>
+        <a href="/profile">{{Auth::user()->nama}}</a>
         <hr/>
     </div>
     <div class="w-full text-sm text-center text-gray-300">( {{ Auth::user()->hak_akses}} )</div>
@@ -24,8 +24,14 @@
                 <span class="py-2 ml-4 border-gray-500 rounded-lg">Data Mapping Regu</span>
             </a>
 
-            <a href="/laporan-progres" class="block mt-5 rounded cursor-pointer hover:bg-blue-600">
-                <span class="py-2 ml-4 border-gray-500 rounded-lg">Data Laporan Progress</span>
+            <a href="/laporan-progres/semua" class="block mt-5 rounded cursor-pointer hover:bg-blue-600 @if(request()->routeIs('laporan.progres.semua')) bg-purple-600  @endif">
+                <span class="py-2 ml-4 border-gray-500 rounded-lg">Laporan Progress ( semua )</span>
+            </a>
+            <a href="/laporan-progres/ok" class="block mt-5 rounded cursor-pointer hover:bg-blue-600 @if(request()->routeIs('laporan.progres.ok')) bg-purple-600  @endif">
+                <span class="py-2 ml-4 border-gray-500 rounded-lg">Laporan Progress ( ok )</span>
+            </a>
+            <a href="/laporan-progres/kendala" class="block mt-5 rounded cursor-pointer hover:bg-blue-600 @if(request()->routeIs('laporan.progres.kendala')) bg-purple-600  @endif">
+                <span class="py-2 ml-4 border-gray-500 rounded-lg">Laporan Progress ( kendala )</span>
             </a>
 
         @endif
@@ -36,6 +42,5 @@
         </a>
         @endif
     </div>
-
 
 </div>

@@ -40,6 +40,7 @@ class ProgresWorkOrder extends Component
             'data' => $this->resultData(),
             'headers' => $this->headerConfig(),
             'mapping_regu' => $this->mappingRegu(),
+            'user' =>Auth::user()->nama,
         ]);
     }
 
@@ -110,7 +111,6 @@ class ProgresWorkOrder extends Component
             $this->nama_kendala = 'foto_kendala_'.$id.'.jpg';
             $this->foto_kendala->storeAs('images', $this->nama_kendala, 'public');
         }
-        // dd($this->nama_kendala);
 
     }
 
@@ -138,7 +138,6 @@ class ProgresWorkOrder extends Component
              'nama_pelanggan' => 'Nama Pelanggan',
              'datek' => 'Datek',
              'regu' => 'Regu',
-            //  'status' => 'Status',
          ];
     }
 
@@ -154,24 +153,19 @@ class ProgresWorkOrder extends Component
 
     private function resultData()
     {
-        return DB::table('work_orders')
-            ->join('mapping_regus', 'work_orders.mapping_regu_id','mapping_regus.id')
-            ->leftJoin('progres_work_orders', 'progres_work_orders.wo_id','work_orders.id')
-            ->select('work_orders.*', 'work_orders.id as order_id', 'work_orders.created_at as tgl_wo', 'mapping_regus.nama_teknisi1', 'mapping_regus.nama_teknisi2','progres_work_orders.status')
-            ->where('status',null) //menampilkan hanya yang belum di update oleh teknisi
-            ->where(
-                function($query) {
-                    return $query
-                    ->where('work_orders.created_at', 'like', '%'.$this->search.'%')
-                    ->orWhere('nama_layanan', 'like', '%'.$this->search.'%')
-                    ->orWhere('nama_pelanggan', 'like', '%'.$this->search.'%')
-                    ->orWhere('datek', 'like', '%'.$this->search.'%')
-                    ->orWhere('nama_teknisi1', 'like', '%'.$this->search.'%')
-                    ->orWhere('nama_teknisi2', 'like', '%'.$this->search.'%');
-                })
-            ->orderBy($this->sortColumn, $this->sortDirection)
-            ->paginate($this->perPage);
 
+        return ModelWorkOrder::whereHas('mapping_regus', function($query) {
+            $query->whereHas('user', function($query2){
+                $query2->where('users.id', Auth::user()->id);
+            })->where(function($query3) {
+                $query3->where('nama_pelanggan', 'like', '%'.$this->search.'%')
+                ->orWhere('work_orders.id', 'like', '%'.$this->search.'%')
+                ->orWhere('nama_layanan', 'like', '%'.$this->search.'%')
+                ->orWhere('datek', 'like', '%'.$this->search.'%');
+            });
+        })->doesntHave('progres_work_order') //menampilkan yg belum update saja
+        ->orderBy($this->sortColumn, $this->sortDirection)
+        ->paginate($this->perPage);
 
 
     }

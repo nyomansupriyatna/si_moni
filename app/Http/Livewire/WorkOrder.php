@@ -57,6 +57,7 @@ class WorkOrder extends Component
              'datek' => 'Datek',
              'keterangan' => 'Keterangan',
              'mapping_regu_id' => 'Nama Regu',
+             'update' => 'Update',
          ];
     }
 
@@ -76,7 +77,7 @@ class WorkOrder extends Component
             ->join('mapping_regus', 'work_orders.mapping_regu_id','mapping_regus.id')
             ->leftJoin('progres_work_orders', 'progres_work_orders.wo_id','work_orders.id')
             ->select('work_orders.*', 'work_orders.id as order_id', 'mapping_regus.nama_regu', 'progres_work_orders.status')
-            ->where('status',null) //menampilkan hanya yang belum di update oleh teknisi
+            // ->where('status',null) //menampilkan hanya yang belum di update oleh teknisi
             ->where(
                 function($query) {
                     return $query

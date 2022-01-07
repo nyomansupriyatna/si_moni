@@ -26,8 +26,14 @@ class WorkOrder extends Model
         return $this->belongsTo(MappingRegu::class, 'mapping_regu_id');
     }
 
+    //user yang input WO, bukan mapping regu /teknisi
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function progres_work_order()
+    {
+        return $this->hasOne(ProgresWorkOrder::class, 'wo_id');
     }
 }

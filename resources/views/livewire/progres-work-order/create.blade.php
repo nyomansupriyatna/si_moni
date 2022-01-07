@@ -50,7 +50,7 @@
                 @endif
 
                 <x-input-text class="mb-2" name="datek" label="Date ODP" readonly="readonly"/>
-                <x-input-text class="mb-2" name="sn_modem" label="ZN Modem" />
+                <x-input-text class="mb-2" name="sn_modem" label="SN Modem" />
                 <x-input-text class="mb-2" name="jumlah_ap" label="Jumlah AP"  type="number"/>
                 <x-input-text class="mb-2" name="panjang_dc" label="Panjang DC" type="number"/>
                 <x-input-text class="mb-2" name="material_lain" label="Material Lain" />

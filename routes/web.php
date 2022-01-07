@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\User;
+use App\Http\Livewire\Profile;
 use App\Http\Livewire\WorkOrder;
 use App\Http\Livewire\MappingRegu;
 use App\Http\Livewire\LaporanProgres;
@@ -22,20 +23,23 @@ use App\Http\Controllers\LoginController;
 Route::get('/', function () {
     return redirect('/login');
 });
-// Route::post('logged_in', [LoginController::class, 'authenticate'])->name('logged_in');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Admin']], function() {
+Route::get('/profile', Profile::class)->name('profile');
+
+Route::group(['middleware'=>[ 'verified','CheckRole:Admin']], function() {
     Route::get('/user', User::class)->name('user');
 });
 
 Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Admin,Operator']], function() {
     Route::get('/mapping-regu', MappingRegu::class)->name('mapping.regu');
     Route::get('/work-order', WorkOrder::class)->name('work.order');
-    Route::get('/laporan-progres', LaporanProgres::class)->name('laporan.progres');
+    Route::get('/laporan-progres/semua', LaporanProgres::class)->name('laporan.progres.semua');
+    Route::get('/laporan-progres/ok', LaporanProgres::class)->name('laporan.progres.ok');
+    Route::get('/laporan-progres/kendala', LaporanProgres::class)->name('laporan.progres.kendala');
 });
 
 Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Teknisi']], function() {

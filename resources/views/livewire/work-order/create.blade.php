@@ -42,6 +42,7 @@
                 <x-input-text class="mb-2" name="datek" label="Datek" />
                 <x-input-text class="mb-2" name="keterangan" label="Keterangan" />
 
+                <label for="mapping_regu_id">Nama Regu</label>
                 <select wire:model="mapping_regu_id" name="mapping_regu_id" class="w-full text-sm border rounded h-9">
                     <option class="flex items-center" value="null" disabled selected hidden>--select--</option>
                     @foreach ($mapping_regu as $item)

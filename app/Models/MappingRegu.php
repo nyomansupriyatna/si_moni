@@ -12,7 +12,17 @@ class MappingRegu extends Model
     protected $fillable = [
         'tanggal',
         'nama_regu',
-        'nama_teknisi1',
-        'nama_teknisi2',
     ];
+
+    //relation ke teknisi (mapping regu)
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'regu_users');
+    }
+
+    public function regu_user()
+    {
+        return $this->hasMany(ReguUser::class);
+    }
+
 }

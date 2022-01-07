@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 
         @livewireStyles
 
@@ -77,6 +78,10 @@
 
         @livewireScripts
         <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+    
+        <script src="{{ asset('js/jquery331.js') }}"></script>
+        <script src="{{ asset('js/select2.min.js') }}"></script>
+   
     </body>
 </html>
 

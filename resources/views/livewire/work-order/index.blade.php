@@ -92,6 +92,9 @@
                             <td class="px-2 text-center border border-gray-300 w-max-content">
                                 {{ $item->nama_regu }}
                             </td>
+                            <td class="px-2 text-center border border-gray-300 w-max-content">
+                                {{ $item->status==null?'belum':$item->status }}
+                            </td>
 
                             <td class="border border-gray-300 ">
                                 <div class="flex items-center justify-around gap-2 mx-1">

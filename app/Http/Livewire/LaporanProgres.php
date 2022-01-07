@@ -6,12 +6,13 @@ use Livewire\Component;
 
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Request;
 use App\Models\WorkOrder as ModelWorkOrder;
 use App\Models\MappingRegu as ModelMappingRegu;
 use App\Models\ProgresWorkOrder as ModelProgresWorkOrder;
-use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\File;
 
 class LaporanProgres extends Component
 {
@@ -31,8 +32,12 @@ class LaporanProgres extends Component
             $nama_modem,
             $nama_ap,
             $nama_kendala;
+    public $param;
 
-
+    public function mount()
+    {
+        $this->param = last(explode('/',Request::path()));
+    }
 
     public function render()
     {
@@ -87,21 +92,21 @@ class LaporanProgres extends Component
 
     private function resultData()
     {
-        return DB::table('progres_work_orders')
-            ->join('work_orders', 'work_orders.id','progres_work_orders.wo_id')
-            ->join('mapping_regus', 'work_orders.mapping_regu_id','mapping_regus.id')
-            ->select('progres_work_orders.*', 'progres_work_orders.tanggal as tgl_update', 'work_orders.id as order_id', 'work_orders.user_psb', 'work_orders.datek','work_orders.created_at as tgl_wo', 'mapping_regus.nama_teknisi1', 'mapping_regus.nama_teknisi2','progres_work_orders.status')
-            ->where('progres_work_orders.tanggal', 'like', '%'.$this->search.'%')
-            ->orWhere('user_psb', 'like', '%'.$this->search.'%')
-            ->orWhere('status', 'like', '%'.$this->search.'%')
-            ->orWhere('datek', 'like', '%'.$this->search.'%')
-            ->orWhere('jumlah_ap', 'like', '%'.$this->search.'%')
-            ->orWhere('panjang_dc', 'like', '%'.$this->search.'%')
-            ->orWhere('material_lain', 'like', '%'.$this->search.'%')
-            ->orWhere('keterangan_tambahan', 'like', '%'.$this->search.'%')
+        if($this->param=='semua'){
+            return ModelProgresWorkOrder::whereHas('work_orders')
+                ->orderBy($this->sortColumn, $this->sortDirection)
+                ->paginate($this->perPage);
+        }elseif($this->param=='ok'){ //jika ok
+            return ModelProgresWorkOrder::whereHas('work_orders')
+            ->where('status','ok')
             ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate($this->perPage);
-
+        }else{ //jika kendala
+            return ModelProgresWorkOrder::whereHas('work_orders')
+            ->where('status','kendala')
+            ->orderBy($this->sortColumn, $this->sortDirection)
+            ->paginate($this->perPage);
+        }
 
 
     }

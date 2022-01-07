@@ -6,6 +6,8 @@ use Illuminate\Support\Str;
 
 use Livewire\WithPagination;
 use App\Models\MappingRegu as ModelMappingRegu;
+use App\Models\User;
+use DB;
 
 class MappingRegu extends Component
 {
@@ -17,13 +19,14 @@ class MappingRegu extends Component
     public $isOpen = 0;
     public $mapping_id, $tanggal, $nama_regu, $nama_teknisi1, $nama_teknisi2;
     public $action_btn ='';
-
+    public $tek;
 
     public function render()
     {
         return view('livewire.mapping-regu.index', [
             'data' => $this->resultData(),
             'headers' => $this->headerConfig(),
+            'teknisis' => User::where('hak_akses', 'Teknisi')->get()
         ]);
     }
 
@@ -44,8 +47,7 @@ class MappingRegu extends Component
              'id' => 'No',
              'tanggal' => 'tanggal',
              'nama_regu' => 'nama_regu',
-             'nama_teknisi1' => 'nama_teknisi1',
-             'nama_teknisi2' => 'nama_teknisi2',
+             'nama_teknisi' => 'nama_teknisi',
          ];
     }
 
@@ -61,11 +63,12 @@ class MappingRegu extends Component
 
     private function resultData()
     {
-         return ModelMappingRegu::where('nama_regu', 'like', '%'.$this->search.'%')
-                    ->orWhere('nama_teknisi1', 'like', '%'.$this->search.'%')
-                    ->orWhere('nama_teknisi2', 'like', '%'.$this->search.'%')
-                    ->orderBy($this->sortColumn, $this->sortDirection)
-                    ->paginate($this->perPage);
+        return ModelMappingRegu::whereHas('user', function($query)  {
+                    $query->where('nama','like','%'.$this->search.'%');
+                     })
+                ->orWhere('nama_regu','like','%'.$this->search.'%')
+                ->orderBy($this->sortColumn, $this->sortDirection)
+                ->paginate($this->perPage);
 
     }
 
@@ -85,8 +88,6 @@ class MappingRegu extends Component
         $this->isOpen = false;
         $this->tanggal = '';
         $this->nama_regu = '';
-        $this->nama_teknisi1 = '';
-        $this->nama_teknisi2 = '';
     }
 
     public function add()
@@ -94,8 +95,7 @@ class MappingRegu extends Component
         $this->action_btn = 'Add';
         $this->tanggal = '';
         $this->nama_regu = '';
-        $this->nama_teknisi1 = '';
-        $this->nama_teknisi2 = '';
+        $this->tek = [];
         $this->showModal();
     }
 
@@ -105,17 +105,15 @@ class MappingRegu extends Component
             [
                 'tanggal' => 'required',
                 'nama_regu' => 'required | unique:mapping_regus',
-                'nama_teknisi1' => 'required',
-                'nama_teknisi2' => 'required',
             ]
         );
 
-        ModelMappingRegu::Create([
-            'tanggal' => $this->tanggal,
-            'nama_regu' => $this->nama_regu,
-            'nama_teknisi1' => $this->nama_teknisi1,
-            'nama_teknisi2' => $this->nama_teknisi2,
-        ]);
+        $item = new ModelMappingRegu();
+        $item->tanggal = $this->tanggal;
+        $item->nama_regu = $this->nama_regu;
+        $item->save();
+
+        $item->user()->sync($this->tek);
 
         $this->hideModal();
 
@@ -130,8 +128,8 @@ class MappingRegu extends Component
         $this->mapping_id = $item->id;
         $this->tanggal = $item->tanggal;
         $this->nama_regu = $item->nama_regu;
-        $this->nama_teknisi1 = $item->nama_teknisi1;
-        $this->nama_teknisi2 = $item->nama_teknisi2;
+        $this->tek = $item->user->pluck('id') ;
+
         $this->showModal();
     }
 
@@ -141,8 +139,6 @@ class MappingRegu extends Component
             [
                 'tanggal' => 'required',
                 'nama_regu' => 'required | unique:mapping_regus,nama_regu,'.$id,
-                'nama_teknisi1' => 'required',
-                'nama_teknisi2' => 'required',
             ]
         );
 
@@ -150,9 +146,11 @@ class MappingRegu extends Component
 
         $item->tanggal = $this->tanggal;
         $item->nama_regu = $this->nama_regu;
-        $item->nama_teknisi1 = $this->nama_teknisi1;
-        $item->nama_teknisi2 = $this->nama_teknisi2;
+        // $item->nama_teknisi1 = $this->nama_teknisi1;
+        // $item->nama_teknisi2 = $this->nama_teknisi2;
         $item->save();
+
+        $item->user()->sync($this->tek);
 
         $this->hideModal();
 
@@ -166,8 +164,7 @@ class MappingRegu extends Component
         $this->mapping_id = $item->id;
         $this->tanggal = $item->tanggal;
         $this->nama_regu = $item->nama_regu;
-        $this->nama_teknisi1 = $item->nama_teknisi1;
-        $this->nama_teknisi2 = $item->nama_teknisi2;
+        $this->tek = $item->user->pluck('id') ;
 
         $this->showModal();
     }
