@@ -104,6 +104,10 @@
             {{$data->links()}}
     </div>
 
+    <div class="flex justify-center ">
+        <a class="border rounded bg-red-500 text-white py-1 px-2" target="_blank" href="/laporan-progres/pdf">Print PDF</a>
+        {{-- <div class="cursor-pointer border py-1 px-2 bg-purple-700 text-white" wire:click="createPDF">Livewire</div> --}}
+    </div>
     @if($isOpen)
         @include('livewire.laporan-progres.fotos')
     @endif

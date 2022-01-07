@@ -6,7 +6,9 @@ use App\Http\Livewire\WorkOrder;
 use App\Http\Livewire\MappingRegu;
 use App\Http\Livewire\LaporanProgres;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Livewire\ProgresWorkOrder;
+use App\Http\Livewire\LaporanProgresPdf;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -40,6 +42,8 @@ Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Admin,Operato
     Route::get('/laporan-progres/semua', LaporanProgres::class)->name('laporan.progres.semua');
     Route::get('/laporan-progres/ok', LaporanProgres::class)->name('laporan.progres.ok');
     Route::get('/laporan-progres/kendala', LaporanProgres::class)->name('laporan.progres.kendala');
+    Route::get('/laporan-progres/pdf', [PDFController::class, 'laporanProgresPDF'])->name('laporan.progres.pdf');
+    // Route::get('/laporan-progres/pdf', LaporanProgresPdf::class)->name('laporan.progres.pdf');
 });
 
 Route::group(['middleware'=>['auth:sanctum', 'verified','CheckRole:Teknisi']], function() {
